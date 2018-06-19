@@ -147,6 +147,12 @@ public class MainActivity extends AppCompatActivity {
         ).show();
     }
 
+    /**
+     * Runs a for loop through the white list, and compares the path of the file
+     * to each path in the list
+     * @param file file to check
+     * @return true if is the file is in the white list, false if not
+     */
     private boolean isPathWhiteListed(File file) {
 
         for (String path : whiteListedPaths) if (path.equals(file.getAbsolutePath())) return true;
@@ -165,6 +171,9 @@ public class MainActivity extends AppCompatActivity {
         typeWriterView.animateText(text);
     }
 
+    /**
+     * Adds paths to the white list that are not to be cleaned
+     */
     private void setUpWhiteList() {
 
         whiteListedPaths.add("/storage/emulated/0/Music");
