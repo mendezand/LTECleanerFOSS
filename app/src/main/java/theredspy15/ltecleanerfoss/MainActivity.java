@@ -27,6 +27,7 @@ import in.codeshuffle.typewriterview.TypeWriterView;
 public class MainActivity extends AppCompatActivity {
 
     List<String> whiteListedPaths = new ArrayList<>();
+    List<String> extensionFilter = new ArrayList<>();
 
     List<File> foundFiles;
     int amountRemoved = 0;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         fileListView = findViewById(R.id.fileListView);
 
         setUpTypeWriter();
-        setUpWhiteList();
+        setUpWhiteListAndFilter();
         requestWriteExternalPermission();
     }
 
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         foundFiles = getListFiles(directory);
 
         for (File file : foundFiles)
-            if (file.getName().contains(".tmp") || file.getName().contains(".log") || file.getName().contains(".cache"))
+            if (checkExtension(file))
                 deleteFile(file);
 
         // No files found
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Runs a for loop through the white list, and compares the path of the file
+     * Runs a for each loop through the white list, and compares the path of the file
      * to each path in the list
      * @param file file to check
      * @return true if is the file is in the white list, false if not
@@ -172,10 +173,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Adds paths to the white list that are not to be cleaned
+     * Runs as for each loop through the extension filter, and checks if
+     * the file name contains the extension
+     * @param file file to check
+     * @return true if the file's extension is in the filter, false otherwise
      */
-    private void setUpWhiteList() {
+    private boolean checkExtension(File file) {
 
+        for (String extension : extensionFilter) if (file.getName().contains(extension)) return true;
+
+        return false;
+    }
+
+    /**
+     * Adds paths to the white list that are not to be cleaned. As well as adds
+     * extensions to filter
+     */
+    private void setUpWhiteListAndFilter() {
+
+        // white list
         whiteListedPaths.add("/storage/emulated/0/Music");
         whiteListedPaths.add("/storage/emulated/0/Podcasts");
         whiteListedPaths.add("/storage/emulated/0/Ringtones");
@@ -185,6 +201,12 @@ public class MainActivity extends AppCompatActivity {
         whiteListedPaths.add("/storage/emulated/0/Movies");
         whiteListedPaths.add("/storage/emulated/0/Download");
         whiteListedPaths.add("/storage/emulated/0/DCIM");
+        whiteListedPaths.add("/storage/emulated/0/Documents");
+
+        // filter
+        extensionFilter.add(".tmp");
+        extensionFilter.add(".log");
+        extensionFilter.add(".cache");
     }
 
     /**
