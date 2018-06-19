@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Searches entire device, adds all files to a list, then a for each loop filters
-     * out files for deletion. Repeats the process 3 times, unless nothing is found
-     * at all
+     * out files for deletion. Repeats the process as long as it keeps finding files to clean,
+     * unless nothing is found to begin with
      */
     private void searchAndDeleteFiles() {
 
