@@ -64,28 +64,39 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Searches entire device, adds all files to a list, then a for each loop filters
-     * out files for deletion
+     * out files for deletion. Repeats the process 3 times, unless nothing is found
+     * at all
      */
     private void searchAndDeleteFiles() {
 
         Looper.prepare();
 
         amountRemoved = 0;
+        byte cycles = 3;
 
-        // forward slash for whole device
-        String path = Environment.getExternalStorageDirectory().toString() + "/";
-        File directory = new File(path);
-        foundFiles = getListFiles(directory);
+        // removes the need to 'clean' multiple times to get everything
+        for (int i = 0; i < cycles; i++) {
 
-        for (File file : foundFiles)
-            if (checkExtension(file))
-                deleteFile(file);
+            // forward slash for whole device
+            String path = Environment.getExternalStorageDirectory().toString() + "/";
+            File directory = new File(path);
+            foundFiles = getListFiles(directory);
 
-        // No files found
-        String errorMessage = getResources().getString(R.string.no_files_found);
-        if (amountRemoved == 0) TastyToast.makeText(
-                MainActivity.this, errorMessage, TastyToast.LENGTH_LONG, TastyToast.CONFUSING
-        ).show();
+            for (File file : foundFiles)
+                if (checkExtension(file))
+                    deleteFile(file);
+
+            // No files found
+            String errorMessage = getResources().getString(R.string.no_files_found);
+            if (amountRemoved == 0) {
+                TastyToast.makeText(
+                        MainActivity.this, errorMessage, TastyToast.LENGTH_LONG, TastyToast.CONFUSING
+                ).show();
+                break;
+            } else ++cycles;
+
+            amountRemoved = 0;
+        }
 
         Looper.loop();
     }
