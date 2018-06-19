@@ -86,14 +86,9 @@ public class MainActivity extends AppCompatActivity {
                 if (checkExtension(file))
                     deleteFile(file);
 
-            // No files found
-            String errorMessage = getResources().getString(R.string.no_files_found);
-            if (amountRemoved == 0) {
-                TastyToast.makeText(
-                        MainActivity.this, errorMessage, TastyToast.LENGTH_LONG, TastyToast.CONFUSING
-                ).show();
-                break;
-            } else ++cycles;
+            // No (more) files found
+            if (amountRemoved == 0) break;
+            else ++cycles;
 
             amountRemoved = 0;
         }
