@@ -103,13 +103,13 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Used to generate a list of all files on device
-     * @param parentDir where to start searching from
+     * @param parentDirectory where to start searching from
      * @return List of all files on device (besides whitelisted ones)
      */
-    private List<File> getListFiles(File parentDir) {
+    private List<File> getListFiles(File parentDirectory) {
 
         ArrayList<File> inFiles = new ArrayList<>();
-        File[] files = parentDir.listFiles();
+        File[] files = parentDirectory.listFiles();
 
         for (File file : files) {
             if (!isPathWhiteListed(file)) // won't touch if whitelisted
