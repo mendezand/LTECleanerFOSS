@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
         Looper.prepare();
 
+        amountRemoved = 0;
+
         // forward slash for whole device
         String path = Environment.getExternalStorageDirectory().toString() + "/";
         File directory = new File(path);
