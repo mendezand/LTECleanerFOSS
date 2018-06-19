@@ -103,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
         for (File file : files) {
             if (!isPathWhiteListed(file)) // won't touch if whitelisted
                 if (file.isDirectory()) { // folder
-                    //if (file.getName().contains("cache")) deleteFile(file); // delete if cache folder
                     if (isDirectoryEmpty(file)) deleteFile(file); // delete if empty
                     else inFiles.addAll(getListFiles(file)); // add contents to returned list
                 } else inFiles.add(file); // file
