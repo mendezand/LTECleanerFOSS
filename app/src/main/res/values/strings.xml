@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">LTE Cleaner (FOSS)</string>
+    <string name="clean">Clean</string>
+    <string name="lte_cleaner">LTE Cleaner! Logs, Temporary and Empty Cleaner</string>
+    <string name="error_when_deleting">Error when deleting</string>
+    <string name="no_files_found">No files found</string>
+</resources>
