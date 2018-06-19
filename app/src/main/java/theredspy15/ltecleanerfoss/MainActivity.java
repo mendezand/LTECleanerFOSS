@@ -26,6 +26,8 @@ import in.codeshuffle.typewriterview.TypeWriterView;
 
 public class MainActivity extends AppCompatActivity {
 
+    List<String> whiteListedPaths = new ArrayList<>();
+
     List<File> foundFiles;
     int amountRemoved = 0;
 
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         fileListView = findViewById(R.id.fileListView);
 
         setUpTypeWriter();
+        setUpWhiteList();
         requestWriteExternalPermission();
     }
 
@@ -74,10 +77,8 @@ public class MainActivity extends AppCompatActivity {
         foundFiles = getListFiles(directory);
 
         for (File file : foundFiles)
-            if (file.getName().contains(".tmp") || file.getName().contains(".log") || file.getName().contains("cache")) {
-
+            if (file.getName().contains(".tmp") || file.getName().contains(".log") || file.getName().contains(".cache"))
                 deleteFile(file);
-            }
 
         // No files found
         String errorMessage = getResources().getString(R.string.no_files_found);
@@ -91,19 +92,22 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Used to generate a list of all files on device
      * @param parentDir where to start searching from
-     * @return List of all files on device
+     * @return List of all files on device (besides whitelisted ones)
      */
-    List<File> getListFiles(File parentDir) {
+    private List<File> getListFiles(File parentDir) {
+
         ArrayList<File> inFiles = new ArrayList<>();
         File[] files = parentDir.listFiles();
+
         for (File file : files) {
-            if (file.isDirectory()) { // folder
-                if (isDirectoryEmpty(file)) deleteFile(file);
-                else inFiles.addAll(getListFiles(file));
-            } else {
-                inFiles.add(file); // file
-            }
+            if (!isPathWhiteListed(file)) // won't touch if whitelisted
+                if (file.isDirectory()) { // folder
+                    //if (file.getName().contains("cache")) deleteFile(file); // delete if cache folder
+                    if (isDirectoryEmpty(file)) deleteFile(file); // delete if empty
+                    else inFiles.addAll(getListFiles(file)); // add contents to returned list
+                } else inFiles.add(file); // file
         }
+
         return inFiles;
     }
 
@@ -137,9 +141,17 @@ public class MainActivity extends AppCompatActivity {
 
         // deletion & error message
         String errorMessage = getResources().getString(R.string.error_when_deleting);
+        errorMessage = errorMessage.concat(" " + file.getName());
         if (!file.delete()) TastyToast.makeText(
                 MainActivity.this, errorMessage, TastyToast.LENGTH_LONG, TastyToast.ERROR
         ).show();
+    }
+
+    private boolean isPathWhiteListed(File file) {
+
+        for (String path : whiteListedPaths) if (path.equals(file.getAbsolutePath())) return true;
+
+        return false;
     }
 
     /**
@@ -151,6 +163,19 @@ public class MainActivity extends AppCompatActivity {
         typeWriterView.setDelay(1);
         typeWriterView.setWithMusic(false);
         typeWriterView.animateText(text);
+    }
+
+    private void setUpWhiteList() {
+
+        whiteListedPaths.add("/storage/emulated/0/Music");
+        whiteListedPaths.add("/storage/emulated/0/Podcasts");
+        whiteListedPaths.add("/storage/emulated/0/Ringtones");
+        whiteListedPaths.add("/storage/emulated/0/Alarms");
+        whiteListedPaths.add("/storage/emulated/0/Notifications");
+        whiteListedPaths.add("/storage/emulated/0/Pictures");
+        whiteListedPaths.add("/storage/emulated/0/Movies");
+        whiteListedPaths.add("/storage/emulated/0/Download");
+        whiteListedPaths.add("/storage/emulated/0/DCIM");
     }
 
     /**
