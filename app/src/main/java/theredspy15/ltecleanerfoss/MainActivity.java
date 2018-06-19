@@ -107,12 +107,23 @@ public class MainActivity extends AppCompatActivity {
         return inFiles;
     }
 
-    private boolean isDirectoryEmpty(File file) {
+    /**
+     * lists the contents of the file to an array, if the array length is 0, the return true,
+     * else false
+     * @param directory directory to test
+     * @return true if empty, false if containing a file(s)
+     */
+    private boolean isDirectoryEmpty(File directory) {
 
-        String[] files = file.list();
+        String[] files = directory.list();
         return files.length == 0;
     }
 
+    /**
+     * Increments amount removed, then creates a text view to add to the scroll view.
+     * If there is any error while deleting, creates toast
+     * @param file file to delete
+     */
     private void deleteFile(File file) {
 
         // creating and adding a text view to the scroll view with path to file
