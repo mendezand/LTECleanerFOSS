@@ -76,20 +76,7 @@ public class MainActivity extends AppCompatActivity {
         for (File file : foundFiles)
             if (file.getName().contains(".tmp") || file.getName().contains(".log") || file.getName().contains("cache")) {
 
-                // creating and adding a text view to the scroll view with path to file
-                ++amountRemoved;
-                TextView textView = new TextView(MainActivity.this);
-                textView.setTextColor(Color.WHITE);
-                textView.setText(file.getAbsolutePath());
-
-                // adding to scroll view
-                runOnUiThread(() -> fileListView.addView(textView));
-
-                // deletion & error message
-                String errorMessage = getResources().getString(R.string.error_when_deleting);
-                if (!file.delete()) TastyToast.makeText(
-                        MainActivity.this, errorMessage, TastyToast.LENGTH_LONG, TastyToast.ERROR
-                ).show();
+                deleteFile(file);
             }
 
         // No files found
@@ -111,12 +98,37 @@ public class MainActivity extends AppCompatActivity {
         File[] files = parentDir.listFiles();
         for (File file : files) {
             if (file.isDirectory()) { // folder
-                inFiles.addAll(getListFiles(file));
+                if (isDirectoryEmpty(file)) deleteFile(file);
+                else inFiles.addAll(getListFiles(file));
             } else {
                 inFiles.add(file); // file
             }
         }
         return inFiles;
+    }
+
+    private boolean isDirectoryEmpty(File file) {
+
+        String[] files = file.list();
+        return files.length == 0;
+    }
+
+    private void deleteFile(File file) {
+
+        // creating and adding a text view to the scroll view with path to file
+        ++amountRemoved;
+        TextView textView = new TextView(MainActivity.this);
+        textView.setTextColor(Color.WHITE);
+        textView.setText(file.getAbsolutePath());
+
+        // adding to scroll view
+        runOnUiThread(() -> fileListView.addView(textView));
+
+        // deletion & error message
+        String errorMessage = getResources().getString(R.string.error_when_deleting);
+        if (!file.delete()) TastyToast.makeText(
+                MainActivity.this, errorMessage, TastyToast.LENGTH_LONG, TastyToast.ERROR
+        ).show();
     }
 
     /**
