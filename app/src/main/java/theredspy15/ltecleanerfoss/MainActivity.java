@@ -16,8 +16,6 @@ import android.widget.TextView;
 
 import com.sdsmdg.tastytoast.TastyToast;
 
-import net.alhazmy13.catcho.library.Catcho;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // catches app crashes and creates error reports
-        Catcho.Builder(this)
-                .recipients("hjadar15@protonmail.com")
-                .build();
 
         typeWriterView = findViewById(R.id.typeWriterView);
         fileListView = findViewById(R.id.fileListView);

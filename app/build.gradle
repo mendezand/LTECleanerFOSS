@@ -23,7 +23,6 @@ android {
 }
 
 dependencies {
-    implementation 'net.alhazmy13.catcho:library:1.1.0'
     implementation 'com.sdsmdg.tastytoast:tastytoast:0.1.1'
     implementation 'in.codeshuffle:typewriterview:1.0.5'
     implementation 'me.spark:submitbutton:1.0.1'
