@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 if (checkExtension(file))
                     deleteFile(file);
 
-            // No (more) files found
+            // no (more) files found
             if (amountRemoved == 0) break;
             else ++cycles;
 
@@ -151,9 +151,12 @@ public class MainActivity extends AppCompatActivity {
         // deletion & error message
         String errorMessage = getResources().getString(R.string.error_when_deleting);
         errorMessage = errorMessage.concat(" " + file.getName());
-        if (!file.delete()) TastyToast.makeText(
-                MainActivity.this, errorMessage, TastyToast.LENGTH_LONG, TastyToast.ERROR
-        ).show();
+        if (!file.delete()) {
+            TastyToast.makeText(
+                    MainActivity.this, errorMessage, TastyToast.LENGTH_LONG, TastyToast.ERROR
+            ).show();
+            textView.setTextColor(Color.RED);
+        }
     }
 
     /**
