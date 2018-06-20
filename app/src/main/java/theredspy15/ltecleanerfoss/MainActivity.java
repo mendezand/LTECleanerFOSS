@@ -109,13 +109,12 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<File> inFiles = new ArrayList<>();
         File[] files = parentDirectory.listFiles();
 
-        for (File file : files) {
+        for (File file : files)
             if (!isPathWhiteListed(file)) // won't touch if whitelisted
                 if (file.isDirectory()) { // folder
                     if (isDirectoryEmpty(file)) deleteFile(file); // delete if empty
                     else inFiles.addAll(getListFiles(file)); // add contents to returned list
                 } else inFiles.add(file); // file
-        }
 
         return inFiles;
     }
