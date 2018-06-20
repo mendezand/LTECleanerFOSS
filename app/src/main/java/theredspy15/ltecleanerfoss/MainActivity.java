@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * lists the contents of the file to an array, if the array length is 0, the return true,
+     * lists the contents of the file to an array, if the array length is 0, then return true,
      * else false
      * @param directory directory to test
      * @return true if empty, false if containing a file(s)
