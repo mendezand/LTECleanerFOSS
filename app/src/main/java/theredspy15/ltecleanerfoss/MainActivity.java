@@ -34,7 +34,7 @@ import in.codeshuffle.typewriterview.TypeWriterView;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<String> whiteListedPaths = new ArrayList<>();
+    List<String> whiteList = new ArrayList<>();
     List<String> extensionFilter = new ArrayList<>();
 
     List<File> foundFiles;
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         File[] files = parentDirectory.listFiles();
 
         for (File file : files)
-            if (!isPathWhiteListed(file)) // won't touch if whitelisted
+            if (!isWhiteListed(file)) // won't touch if whitelisted
                 if (file.isDirectory()) { // folder
                     if (isDirectoryEmpty(file)) deleteFile(file); // delete if empty
                     else inFiles.addAll(getListFiles(file)); // add contents to returned list
@@ -164,9 +164,9 @@ public class MainActivity extends AppCompatActivity {
      * @param file file to check
      * @return true if is the file is in the white list, false if not
      */
-    private boolean isPathWhiteListed(File file) {
+    private boolean isWhiteListed(File file) {
 
-        for (String path : whiteListedPaths) if (path.equals(file.getAbsolutePath())) return true;
+        for (String path : whiteList) if (path.equals(file.getAbsolutePath()) || path.equals(file.getName())) return true;
 
         return false;
     }
@@ -202,16 +202,17 @@ public class MainActivity extends AppCompatActivity {
     private void setUpWhiteListAndFilter() {
 
         // white list
-        whiteListedPaths.add("/storage/emulated/0/Music");
-        whiteListedPaths.add("/storage/emulated/0/Podcasts");
-        whiteListedPaths.add("/storage/emulated/0/Ringtones");
-        whiteListedPaths.add("/storage/emulated/0/Alarms");
-        whiteListedPaths.add("/storage/emulated/0/Notifications");
-        whiteListedPaths.add("/storage/emulated/0/Pictures");
-        whiteListedPaths.add("/storage/emulated/0/Movies");
-        whiteListedPaths.add("/storage/emulated/0/Download");
-        whiteListedPaths.add("/storage/emulated/0/DCIM");
-        whiteListedPaths.add("/storage/emulated/0/Documents");
+        whiteList.add("/storage/emulated/0/Music");
+        whiteList.add("/storage/emulated/0/Podcasts");
+        whiteList.add("/storage/emulated/0/Ringtones");
+        whiteList.add("/storage/emulated/0/Alarms");
+        whiteList.add("/storage/emulated/0/Notifications");
+        whiteList.add("/storage/emulated/0/Pictures");
+        whiteList.add("/storage/emulated/0/Movies");
+        whiteList.add("/storage/emulated/0/Download");
+        whiteList.add("/storage/emulated/0/DCIM");
+        whiteList.add("/storage/emulated/0/Documents");
+        whiteList.add(".stfolder");
 
         // filter
         extensionFilter.add(".tmp");
