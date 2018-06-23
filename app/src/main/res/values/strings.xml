@@ -14,4 +14,13 @@
     <string name="lte_cleaner">LTE Cleaner! Logs, Temporary and Empty Cleaner</string>
     <string name="error_when_deleting">Error when deleting:</string>
     <string name="no_files_found">No files found</string>
+    <string name="delete_empty_folders">Delete empty folders</string>
+    <string name="delete_cache_files">Delete .cache files</string>
+    <string name="delete_tmp_files">Delete .tmp files</string>
+    <string name="delete_log_files">Delete .log files</string>
+    <string name="delete_apk_files">Delete .apk files</string>
+    <string name="clear_clipboard">Clear clipboard</string>
+    <string name="Save">Save</string>
+    <string name="back">Back</string>
+    <string name="filter">Filter</string>
 </resources>

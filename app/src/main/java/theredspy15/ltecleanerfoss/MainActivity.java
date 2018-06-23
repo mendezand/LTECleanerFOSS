@@ -11,6 +11,8 @@
 package theredspy15.ltecleanerfoss;
 
 import android.Manifest;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -36,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
     List<String> whiteList = new ArrayList<>();
     List<String> extensionFilter = new ArrayList<>();
-
     List<File> foundFiles;
     int amountRemoved = 0;
+    SharedPreferences preferences;
 
     TypeWriterView typeWriterView;
     LinearLayout fileListView;
@@ -52,9 +54,17 @@ public class MainActivity extends AppCompatActivity {
         typeWriterView = findViewById(R.id.typeWriterView);
         fileListView = findViewById(R.id.fileListView);
 
+        preferences = getSharedPreferences("userPrefs",MODE_PRIVATE);
+
         setUpTypeWriter();
         setUpWhiteListAndFilter();
         requestWriteExternalPermission();
+    }
+
+    public final void settings(View view) {
+
+        Intent randomIntent = new Intent(this, SettingsActivity.class);
+        startActivity(randomIntent);
     }
 
     /**
@@ -111,10 +121,12 @@ public class MainActivity extends AppCompatActivity {
 
         for (File file : files)
             if (!isWhiteListed(file)) // won't touch if whitelisted
-                if (file.isDirectory()) { // folder
-                    if (isDirectoryEmpty(file)) deleteFile(file); // delete if empty
+                if (file.isDirectory()) { // folder if statements
+
+                    if (isDirectoryEmpty(file) && preferences.getBoolean("deleteEmpty",true)) deleteFile(file); // delete if empty
                     else inFiles.addAll(getListFiles(file)); // add contents to returned list
-                } else inFiles.add(file); // file
+
+                } else inFiles.add(file); // add file
 
         return inFiles;
     }
@@ -212,12 +224,13 @@ public class MainActivity extends AppCompatActivity {
         whiteList.add("/storage/emulated/0/Download");
         whiteList.add("/storage/emulated/0/DCIM");
         whiteList.add("/storage/emulated/0/Documents");
-        whiteList.add(".stfolder");
+        whiteList.add(".stfolder"); // requested issue #2
 
         // filter
-        extensionFilter.add(".tmp");
-        extensionFilter.add(".log");
-        extensionFilter.add(".cache");
+        if (preferences.getBoolean("deleteTmp",true)) extensionFilter.add(".tmp");
+        if (preferences.getBoolean("deleteLog",true)) extensionFilter.add(".log");
+        if (preferences.getBoolean("deleteCache",true)) extensionFilter.add(".cache");
+        if (preferences.getBoolean("deleteAPKs",false)) extensionFilter.add(".apk");
     }
 
     /**
