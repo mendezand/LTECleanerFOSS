@@ -61,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
         requestWriteExternalPermission();
     }
 
+    /**
+     * Starts the settings activity
+     * @param view the view that is clicked
+     */
     public final void settings(View view) {
 
         Intent randomIntent = new Intent(this, SettingsActivity.class);

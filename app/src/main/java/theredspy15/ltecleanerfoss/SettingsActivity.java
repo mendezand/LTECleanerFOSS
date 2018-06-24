@@ -57,6 +57,10 @@ public class SettingsActivity extends AppCompatActivity {
         clipboardCheckBox.setChecked(preferences.getBoolean("deleteClipboard",false));
     }
 
+    /**
+     * Saves all settings to the shared preferences file
+     * @param view view that is clicked
+     */
     public final void save(View view) {
 
         editor.putBoolean("deleteAPKs",apkCheckBox.isChecked());
@@ -74,6 +78,10 @@ public class SettingsActivity extends AppCompatActivity {
         startActivity(randomIntent);
     }
 
+    /**
+     * Starts the main activity
+     * @param view the view that is clicked
+     */
     public final void back(View view) {
 
         Intent randomIntent = new Intent(this, MainActivity.class);
