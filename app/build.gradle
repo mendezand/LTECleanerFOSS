@@ -36,7 +36,6 @@ dependencies {
     implementation 'com.github.medyo:fancybuttons:1.8.4'
     implementation 'com.sdsmdg.tastytoast:tastytoast:0.1.1'
     implementation 'in.codeshuffle:typewriterview:1.0.5'
-    implementation 'me.spark:submitbutton:1.0.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:26.1.0'
