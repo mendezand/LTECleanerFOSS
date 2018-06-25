@@ -26,8 +26,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.sdsmdg.tastytoast.TastyToast;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
         Looper.prepare();
 
         filesRemoved = 0;
-        byte cycles = 3;
+        byte cycles = 2;
+        byte maxCycles = 10;
 
         // removes the need to 'clean' multiple times to get everything
         for (int i = 0; i < cycles; i++) {
@@ -106,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
             // no (more) files found
             if (filesRemoved == 0) break;
             else ++cycles;
+            if (cycles >= maxCycles) break; // prevent from running to many times
 
             filesRemoved = 0;
         }
@@ -163,15 +163,8 @@ public class MainActivity extends AppCompatActivity {
         // adding to scroll view
         runOnUiThread(() -> fileListView.addView(textView));
 
-        // deletion & error message
-        String errorMessage = getResources().getString(R.string.error_when_deleting);
-        errorMessage = errorMessage.concat(" " + file.getName());
-        if (!file.delete()) {
-            TastyToast.makeText(
-                    MainActivity.this, errorMessage, TastyToast.LENGTH_LONG, TastyToast.ERROR
-            ).show();
-            textView.setTextColor(Color.RED);
-        }
+        // deletion & error effect
+        if (!file.delete()) textView.setTextColor(Color.RED);
     }
 
     /**
