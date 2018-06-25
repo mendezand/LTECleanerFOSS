@@ -55,7 +55,7 @@
 
     <mehdi.sakout.fancybuttons.FancyButton
         android:id="@+id/settingsButton"
-        android:layout_width="60dp"
+        android:layout_width="65dp"
         android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
