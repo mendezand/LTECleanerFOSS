@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     List<String> whiteList = new ArrayList<>();
     List<String> extensionFilter = new ArrayList<>();
     List<File> foundFiles;
-    int amountRemoved = 0;
+    int filesRemoved = 0;
     SharedPreferences preferences;
 
     TypeWriterView typeWriterView;
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
         Looper.prepare();
 
-        amountRemoved = 0;
+        filesRemoved = 0;
         byte cycles = 3;
 
         // removes the need to 'clean' multiple times to get everything
@@ -104,10 +104,10 @@ public class MainActivity extends AppCompatActivity {
                     deleteFile(file);
 
             // no (more) files found
-            if (amountRemoved == 0) break;
+            if (filesRemoved == 0) break;
             else ++cycles;
 
-            amountRemoved = 0;
+            filesRemoved = 0;
         }
 
         Looper.loop();
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
     private void deleteFile(File file) {
 
         // creating and adding a text view to the scroll view with path to file
-        ++amountRemoved;
+        ++filesRemoved;
         TextView textView = new TextView(MainActivity.this);
         textView.setTextColor(Color.WHITE);
         textView.setText(file.getAbsolutePath());
