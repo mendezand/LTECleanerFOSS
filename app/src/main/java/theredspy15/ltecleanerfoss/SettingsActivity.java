@@ -44,7 +44,6 @@ public class SettingsActivity extends AppCompatActivity {
         emptyCheckBox = findViewById(R.id.emptyFolderBox);
         logCheckBox = findViewById(R.id.logBox);
         cacheCheckBox = findViewById(R.id.cacheBox);
-        clipboardCheckBox = findViewById(R.id.clipboardBox);
 
         preferences = getSharedPreferences("userPrefs",MODE_PRIVATE);
         editor = preferences.edit();
@@ -54,7 +53,6 @@ public class SettingsActivity extends AppCompatActivity {
         emptyCheckBox.setChecked(preferences.getBoolean("deleteEmpty",true));
         logCheckBox.setChecked(preferences.getBoolean("deleteLog",true));
         cacheCheckBox.setChecked(preferences.getBoolean("deleteCache",true));
-        clipboardCheckBox.setChecked(preferences.getBoolean("deleteClipboard",false));
     }
 
     /**
@@ -67,7 +65,6 @@ public class SettingsActivity extends AppCompatActivity {
         editor.putBoolean("deleteEmpty",emptyCheckBox.isChecked());
         editor.putBoolean("deleteLog",logCheckBox.isChecked());
         editor.putBoolean("deleteCache",cacheCheckBox.isChecked());
-        editor.putBoolean("deleteClipboard",clipboardCheckBox.isChecked());
         editor.putBoolean("deleteTmp",tmpCheckBox.isChecked());
 
         editor.apply();
