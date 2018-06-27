@@ -44,6 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        // linking to UI
         apkCheckBox = findViewById(R.id.apkBox);
         tmpCheckBox = findViewById(R.id.tmpBox);
         emptyCheckBox = findViewById(R.id.emptyFolderBox);
@@ -51,9 +52,11 @@ public class SettingsActivity extends AppCompatActivity {
         cacheCheckBox = findViewById(R.id.cacheBox);
         listView = findViewById(R.id.whitelistView);
 
+        // whitelist view
         adapter = new ArrayAdapter<>(SettingsActivity.this,R.layout.custom_textview,MainActivity.whiteList);
         listView.setAdapter(adapter);
 
+        // checkboxes
         apkCheckBox.setChecked(Stash.getBoolean("deleteAPKs",false));
         tmpCheckBox.setChecked(Stash.getBoolean("deleteTmp",true));
         emptyCheckBox.setChecked(Stash.getBoolean("deleteEmpty",true));
@@ -67,6 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
      */
     public final void save(View view) {
 
+        // loading preferences from stash
         Stash.put("deleteAPKs",apkCheckBox.isChecked());
         Stash.put("deleteEmpty",emptyCheckBox.isChecked());
         Stash.put("deleteLog",logCheckBox.isChecked());
@@ -77,6 +81,10 @@ public class SettingsActivity extends AppCompatActivity {
         TastyToast.makeText(this,"Saved",TastyToast.LENGTH_SHORT,TastyToast.SUCCESS).show();
     }
 
+    /**
+     * Loads the privacy policy url in a browser
+     * @param view the view that is clicked
+     */
     public final void viewPrivacyPolicy(View view) {
 
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://cdn.rawgit.com/TheRedSpy15/LTECleanerFOSS/d9522c76/privacy_policy.html"));
@@ -93,6 +101,10 @@ public class SettingsActivity extends AppCompatActivity {
         startActivity(randomIntent);
     }
 
+    /**
+     * Creates a dialog asking for a file/folder name to add to the whitelist
+     * @param view the view that is clicked
+     */
     public final void addToWhitelist(View view) {
 
         final EditText input = new EditText(SettingsActivity.this);
@@ -105,6 +117,10 @@ public class SettingsActivity extends AppCompatActivity {
                 .setNegativeButton(R.string.cancel, (dialog, whichButton) -> { }).show();
     }
 
+    /**
+     * Clears the whitelist, then sets it up again without loading saved one from stash
+     * @param view the view that is clicked
+     */
     public final void resetWhitelist(View view) {
 
         MainActivity.whiteList.clear();
@@ -115,6 +131,6 @@ public class SettingsActivity extends AppCompatActivity {
             listView.refreshDrawableState();
         });
 
-        MainActivity.setUpWhiteListAndFilter(false);
+        MainActivity.setUpWhiteListAndFilter(false); // false so we don't end up with the same thing we just reset
     }
 }

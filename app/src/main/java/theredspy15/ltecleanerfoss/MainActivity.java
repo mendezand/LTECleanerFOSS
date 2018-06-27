@@ -206,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Adds paths to the white list that are not to be cleaned. As well as adds
      * extensions to filter
+     * @param loadStash whether to load the saved whitelist in the stash
      */
     static void setUpWhiteListAndFilter(boolean loadStash) {
 
