@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.fxn.stash.Stash;
 
 import java.io.File;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +37,7 @@ import in.codeshuffle.typewriterview.TypeWriterView;
 public class MainActivity extends AppCompatActivity {
 
     static List<String> whiteList = new ArrayList<>();
-    static List<String> extensionFilter = new ArrayList<>();
+    static ArrayDeque<String> extensionFilter = new ArrayDeque<>();
     List<File> foundFiles;
     int filesRemoved = 0;
 
