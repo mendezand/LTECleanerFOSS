@@ -18,7 +18,6 @@
     <string name="delete_tmp_files">Delete .tmp files</string>
     <string name="delete_log_files">Delete .log files</string>
     <string name="delete_apk_files">Delete .apk files</string>
-    <string name="clear_clipboard">Clear clipboard</string>
     <string name="Save">Save</string>
     <string name="filter">Filter</string>
     <string name="whitelist">Whitelist</string>
