@@ -20,6 +20,11 @@
     <string name="delete_apk_files">Delete .apk files</string>
     <string name="clear_clipboard">Clear clipboard</string>
     <string name="Save">Save</string>
-    <string name="back">Back</string>
     <string name="filter">Filter</string>
+    <string name="whitelist">Whitelist</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="add_to_whitelist">Add to whitelist</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
+    <string name="enter_file_name">Enter file/folder name to whitelist</string>
 </resources>

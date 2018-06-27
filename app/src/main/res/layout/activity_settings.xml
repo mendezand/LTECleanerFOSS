@@ -20,12 +20,8 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/saveButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_width="217dp"
+        android:layout_height="263dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -36,14 +32,14 @@
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/filter"
                 android:textColor="@color/colorAccent"
                 android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="20dp"/>
+                android:textStyle="bold" />
 
             <CheckBox
                 android:id="@+id/emptyFolderBox"
@@ -118,7 +114,6 @@
         fancy:fb_borderWidth="1dp"
         fancy:fb_defaultColor="@color/colorAccent"
         fancy:fb_focusColor="@color/colorAccent"
-        fancy:fb_fontIconResource="&#xf15b;"
         fancy:fb_iconPosition="left"
         fancy:fb_radius="30dp"
         fancy:fb_text="@string/Save"
@@ -137,11 +132,108 @@
         android:paddingTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        fancy:fb_fontIconResource="&#xf060;"
         fancy:fb_borderWidth="1dp"
         fancy:fb_defaultColor="@color/colorAccent"
         fancy:fb_focusColor="@color/colorAccent"
         fancy:fb_radius="30dp"
-        fancy:fb_text="@string/back"
+        fancy:fb_text=""
+        fancy:fb_textColor="#FFFFFF" />
+
+    <ListView
+        android:id="@+id/whitelistView"
+        android:layout_width="322dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toTopOf="@+id/saveButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/whitelist"
+        android:textColor="@color/colorAccent"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/privacyPolicyButton"
+        android:layout_width="0dp"
+        android:layout_height="61dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="viewPrivacyPolicy"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/scrollView2"
+        app:layout_constraintTop_toTopOf="parent"
+        fancy:fb_fontIconResource="&#xf0c1;"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="@color/colorPrimaryDark"
+        fancy:fb_focusColor="@color/colorAccent"
+        fancy:fb_radius="30dp"
+        fancy:fb_text="@string/privacy_policy"
+        fancy:fb_textColor="#FFFFFF" />
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/addWhiteList"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_marginStart="8dp"
+        android:onClick="addToWhitelist"
+        android:paddingBottom="1dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.0"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="@color/colorPrimaryDark"
+        fancy:fb_focusColor="@color/colorAccent"
+        fancy:fb_radius="30dp"
+        fancy:fb_fontIconResource="&#xf067;"
+        fancy:fb_text=""
+        fancy:fb_textColor="#FFFFFF" />
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/resetWhiteList"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="resetWhitelist"
+        android:paddingBottom="1dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.0"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="@color/colorPrimaryDark"
+        fancy:fb_focusColor="@color/colorAccent"
+        fancy:fb_radius="30dp"
+        fancy:fb_fontIconResource="&#xf0e2;"
+        fancy:fb_text=""
         fancy:fb_textColor="#FFFFFF" />
 
 </android.support.constraint.ConstraintLayout>

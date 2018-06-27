@@ -12,12 +12,18 @@ package theredspy15.ltecleanerfoss;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ListView;
 
+import com.fxn.stash.Stash;
 import com.sdsmdg.tastytoast.TastyToast;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -27,10 +33,9 @@ public class SettingsActivity extends AppCompatActivity {
     CheckBox emptyCheckBox;
     CheckBox logCheckBox;
     CheckBox cacheCheckBox;
-    CheckBox clipboardCheckBox;
+    ListView listView;
 
-    SharedPreferences preferences;
-    SharedPreferences.Editor editor;
+    BaseAdapter adapter;
 
     @SuppressLint("CommitPrefEdits")
     @Override
@@ -44,15 +49,16 @@ public class SettingsActivity extends AppCompatActivity {
         emptyCheckBox = findViewById(R.id.emptyFolderBox);
         logCheckBox = findViewById(R.id.logBox);
         cacheCheckBox = findViewById(R.id.cacheBox);
+        listView = findViewById(R.id.whitelistView);
 
-        preferences = getSharedPreferences("userPrefs",MODE_PRIVATE);
-        editor = preferences.edit();
+        adapter = new ArrayAdapter<>(SettingsActivity.this,R.layout.custom_textview,MainActivity.whiteList);
+        listView.setAdapter(adapter);
 
-        apkCheckBox.setChecked(preferences.getBoolean("deleteAPKs",false));
-        tmpCheckBox.setChecked(preferences.getBoolean("deleteTmp",true));
-        emptyCheckBox.setChecked(preferences.getBoolean("deleteEmpty",true));
-        logCheckBox.setChecked(preferences.getBoolean("deleteLog",true));
-        cacheCheckBox.setChecked(preferences.getBoolean("deleteCache",true));
+        apkCheckBox.setChecked(Stash.getBoolean("deleteAPKs",false));
+        tmpCheckBox.setChecked(Stash.getBoolean("deleteTmp",true));
+        emptyCheckBox.setChecked(Stash.getBoolean("deleteEmpty",true));
+        logCheckBox.setChecked(Stash.getBoolean("deleteLog",true));
+        cacheCheckBox.setChecked(Stash.getBoolean("deleteCache",true));
     }
 
     /**
@@ -61,18 +67,20 @@ public class SettingsActivity extends AppCompatActivity {
      */
     public final void save(View view) {
 
-        editor.putBoolean("deleteAPKs",apkCheckBox.isChecked());
-        editor.putBoolean("deleteEmpty",emptyCheckBox.isChecked());
-        editor.putBoolean("deleteLog",logCheckBox.isChecked());
-        editor.putBoolean("deleteCache",cacheCheckBox.isChecked());
-        editor.putBoolean("deleteTmp",tmpCheckBox.isChecked());
-
-        editor.apply();
+        Stash.put("deleteAPKs",apkCheckBox.isChecked());
+        Stash.put("deleteEmpty",emptyCheckBox.isChecked());
+        Stash.put("deleteLog",logCheckBox.isChecked());
+        Stash.put("deleteCache",cacheCheckBox.isChecked());
+        Stash.put("deleteTmp",tmpCheckBox.isChecked());
+        Stash.put("whiteList",MainActivity.whiteList);
 
         TastyToast.makeText(this,"Saved",TastyToast.LENGTH_SHORT,TastyToast.SUCCESS).show();
+    }
 
-        Intent randomIntent = new Intent(this, MainActivity.class);
-        startActivity(randomIntent);
+    public final void viewPrivacyPolicy(View view) {
+
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://cdn.rawgit.com/TheRedSpy15/LTECleanerFOSS/d9522c76/privacy_policy.html"));
+        startActivity(browserIntent);
     }
 
     /**
@@ -83,5 +91,30 @@ public class SettingsActivity extends AppCompatActivity {
 
         Intent randomIntent = new Intent(this, MainActivity.class);
         startActivity(randomIntent);
+    }
+
+    public final void addToWhitelist(View view) {
+
+        final EditText input = new EditText(SettingsActivity.this);
+
+        new AlertDialog.Builder(SettingsActivity.this)
+                .setTitle(R.string.add_to_whitelist)
+                .setMessage(R.string.enter_file_name)
+                .setView(input)
+                .setPositiveButton(R.string.add, (dialog, whichButton) -> MainActivity.whiteList.add(String.valueOf(input.getText())))
+                .setNegativeButton(R.string.cancel, (dialog, whichButton) -> { }).show();
+    }
+
+    public final void resetWhitelist(View view) {
+
+        MainActivity.whiteList.clear();
+
+        runOnUiThread(() -> {
+            adapter.notifyDataSetChanged();
+            listView.invalidateViews();
+            listView.refreshDrawableState();
+        });
+
+        MainActivity.setUpWhiteListAndFilter(false);
     }
 }

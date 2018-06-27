@@ -12,7 +12,6 @@ package theredspy15.ltecleanerfoss;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -26,6 +25,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.fxn.stash.Stash;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +35,10 @@ import in.codeshuffle.typewriterview.TypeWriterView;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<String> whiteList = new ArrayList<>();
-    List<String> extensionFilter = new ArrayList<>();
+    static List<String> whiteList = new ArrayList<>();
+    static List<String> extensionFilter = new ArrayList<>();
     List<File> foundFiles;
     int filesRemoved = 0;
-    SharedPreferences preferences;
 
     TypeWriterView typeWriterView;
     LinearLayout fileListView;
@@ -48,14 +48,13 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Stash.init(getApplicationContext());
 
         typeWriterView = findViewById(R.id.typeWriterView);
         fileListView = findViewById(R.id.fileListView);
 
-        preferences = getSharedPreferences("userPrefs",MODE_PRIVATE);
-
         setUpTypeWriter();
-        setUpWhiteListAndFilter();
+        setUpWhiteListAndFilter(true);
         requestWriteExternalPermission();
     }
 
@@ -127,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             if (!isWhiteListed(file)) // won't touch if whitelisted
                 if (file.isDirectory()) { // folder if statements
 
-                    if (isDirectoryEmpty(file) && preferences.getBoolean("deleteEmpty",true)) deleteFile(file); // delete if empty
+                    if (isDirectoryEmpty(file) && Stash.getBoolean("deleteEmpty",true)) deleteFile(file); // delete if empty
                     else inFiles.addAll(getListFiles(file)); // add contents to returned list
 
                 } else inFiles.add(file); // add file
@@ -208,26 +207,30 @@ public class MainActivity extends AppCompatActivity {
      * Adds paths to the white list that are not to be cleaned. As well as adds
      * extensions to filter
      */
-    private void setUpWhiteListAndFilter() {
+    static void setUpWhiteListAndFilter(boolean loadStash) {
+
+        if (loadStash) whiteList = Stash.getArrayList("whiteList",String.class);
 
         // white list
-        whiteList.add("/storage/emulated/0/Music");
-        whiteList.add("/storage/emulated/0/Podcasts");
-        whiteList.add("/storage/emulated/0/Ringtones");
-        whiteList.add("/storage/emulated/0/Alarms");
-        whiteList.add("/storage/emulated/0/Notifications");
-        whiteList.add("/storage/emulated/0/Pictures");
-        whiteList.add("/storage/emulated/0/Movies");
-        whiteList.add("/storage/emulated/0/Download");
-        whiteList.add("/storage/emulated/0/DCIM");
-        whiteList.add("/storage/emulated/0/Documents");
-        whiteList.add(".stfolder"); // requested issue #2
+        if (whiteList.size() == 0) {
+
+            whiteList.add("/storage/emulated/0/Music");
+            whiteList.add("/storage/emulated/0/Podcasts");
+            whiteList.add("/storage/emulated/0/Ringtones");
+            whiteList.add("/storage/emulated/0/Alarms");
+            whiteList.add("/storage/emulated/0/Notifications");
+            whiteList.add("/storage/emulated/0/Pictures");
+            whiteList.add("/storage/emulated/0/Movies");
+            whiteList.add("/storage/emulated/0/Download");
+            whiteList.add("/storage/emulated/0/DCIM");
+            whiteList.add("/storage/emulated/0/Documents");
+        }
 
         // filter
-        if (preferences.getBoolean("deleteTmp",true)) extensionFilter.add(".tmp");
-        if (preferences.getBoolean("deleteLog",true)) extensionFilter.add(".log");
-        if (preferences.getBoolean("deleteCache",true)) extensionFilter.add(".cache");
-        if (preferences.getBoolean("deleteAPKs",false)) extensionFilter.add(".apk");
+        if (Stash.getBoolean("deleteTmp",true)) extensionFilter.add(".tmp");
+        if (Stash.getBoolean("deleteLog",true)) extensionFilter.add(".log");
+        if (Stash.getBoolean("deleteCache",true)) extensionFilter.add(".cache");
+        if (Stash.getBoolean("deleteAPKs",false)) extensionFilter.add(".apk");
     }
 
     /**
